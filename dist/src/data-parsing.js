@@ -35,84 +35,107 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.articlePost = exports.extractCookies = exports.TistoryUpload = void 0;
+exports.PostService = void 0;
 require('dotenv').config();
 const axios_1 = __importDefault(require("axios"));
-const puppeteer_1 = __importDefault(require("puppeteer"));
 const fs = __importStar(require("fs"));
-class TistoryUpload {
-    extractCookies() {
-        return __awaiter(this, void 0, void 0, function* () { });
+const marked_1 = require("marked");
+const unified_1 = require("unified");
+const remark_parse_1 = __importDefault(require("remark-parse"));
+const remark_rehype_1 = __importDefault(require("remark-rehype"));
+const rehype_stringify_1 = __importDefault(require("rehype-stringify"));
+class PostService {
+    constructor(title, category, tag) {
+        this.title = title;
+        this.category = category;
+        this.tag = tag;
+    }
+    articlePost(cookies) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const articleRead = fs.readFileSync(process.env.PATH, 'utf8');
+            // markdown to html
+            const articleHtml = (0, marked_1.marked)(articleRead);
+            const html_text = (0, unified_1.unified)().use(remark_parse_1.default).use(remark_rehype_1.default).use(rehype_stringify_1.default).processSync(articleRead);
+            const aaa = html_text.toString();
+            console.log(aaa);
+            // 해당 쿠키 + 포스팅 할 내용으로 POST 요청
+            const uploadData = {
+                id: '0',
+                title: this.title,
+                content: aaa,
+                slogan: 'ㄴㅇㄹㅁㄴㅇㄹㅇㅁㄴㄹㅁㄴㅇㄹ',
+                visibility: 0,
+                category: this.category,
+                tag: this.tag,
+                published: 1,
+                password: '43NjI2Mz',
+                uselessMarginForEntry: 1,
+                daumLike: '401',
+                cclCommercial: 0,
+                cclDerive: 0,
+                thumbnail: null,
+                type: 'post',
+                attachments: [],
+                recaptchaValue: '',
+                draftSequence: null,
+            };
+            try {
+                const response = yield axios_1.default.post(process.env.POST_URL, uploadData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // @ts-ignore
+                        Cookie: cookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; '),
+                    },
+                });
+                //     // 응답 처리
+                return response.data;
+                // @ts-ignore
+            }
+            catch (error) {
+                // @ts-ignore
+                console.error('Error:', error.message);
+            }
+        });
     }
 }
-exports.TistoryUpload = TistoryUpload;
-function extractCookies() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const browser = yield puppeteer_1.default.launch({ headless: false });
-        const page = yield browser.newPage();
-        // 웹 페이지 열기
-        yield page.goto(process.env.MANAGE);
-        // 로그인
-        yield page.click('#cMain > div > div > div > a.btn_login.link_kakao_id > span.txt_login'); // 버튼 클릭
-        yield page.waitForSelector('#loginId--1'); // 페이지 로딩 대기
-        yield page.focus('#loginId--1'); // 로그인 input 포커스
-        yield page.keyboard.type(process.env.ID); // 아이디 입력
-        yield page.focus('#password--2'); // 비밀번호 input 포커스
-        yield page.keyboard.type(process.env.PW); // 비밀번호 입력
-        yield page.click('#mainContent > div > div > form > div.confirm_btn > button.btn_g.highlight.submit'); // 로그인 버튼 클릭
-        yield page.waitForNavigation(); // 페이지 로딩 대기
-        // 쿠키 가져오고
-        const cookies = yield page.cookies();
-        // 브라우저 종료
-        yield browser.close();
-        return cookies;
-    });
-}
-exports.extractCookies = extractCookies;
-// @ts-ignore
-function articlePost(cookies) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const domain = './articles'; // 포스팅할 아티클 경로
-        const articleArray = fs.readdirSync(domain);
-        const articleRead = fs.readFileSync(`${domain}/${articleArray[articleArray.length - 1]}`, 'utf8');
-        const article = JSON.stringify(articleRead);
-        // 해당 쿠키 + 포스팅 할 내용으로 POST 요청
-        const uploadData = {
-            id: '0',
-            title: 'testesetddsetest',
-            content: article,
-            slogan: 'ㄴㅇㄹㅁㄴㅇㄹㅇㅁㄴㄹㅁㄴㅇㄹ',
-            visibility: 0,
-            category: 1,
-            tag: '',
-            published: 1,
-            password: '43NjI2Mz',
-            uselessMarginForEntry: 1,
-            daumLike: '401',
-            cclCommercial: 0,
-            cclDerive: 0,
-            thumbnail: null,
-            type: 'post',
-            attachments: [],
-            recaptchaValue: '',
-            draftSequence: null,
-        };
-        try {
-            const response = yield axios_1.default.post(process.env.POST_URL, uploadData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    // @ts-ignore
-                    Cookie: cookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; '),
-                },
-            });
-            //     // 응답 처리
-            return response.data;
-            // @ts-ignore
-        }
-        catch (error) {
-            // @ts-ignore
-            console.error('Error:', error.message);
-        }
-    });
-}
-exports.articlePost = articlePost;
+exports.PostService = PostService;
+// export async function articlePost(cookies: any) {
+//   const articleRead = fs.readFileSync(process.env.PATH as string, 'utf8');
+//   const article = JSON.stringify(articleRead);
+//   // 해당 쿠키 + 포스팅 할 내용으로 POST 요청
+//   const uploadData = {
+//     id: '0',
+//     title: 'testesetddsetest',
+//     content: article,
+//     slogan: 'ㄴㅇㄹㅁㄴㅇㄹㅇㅁㄴㄹㅁㄴㅇㄹ',
+//     visibility: 0,
+//     category: 1,
+//     tag: '',
+//     published: 1,
+//     password: '43NjI2Mz',
+//     uselessMarginForEntry: 1,
+//     daumLike: '401',
+//     cclCommercial: 0,
+//     cclDerive: 0,
+//     thumbnail: null,
+//     type: 'post',
+//     attachments: [],
+//     recaptchaValue: '',
+//     draftSequence: null,
+//   };
+//   try {
+//     const response = await axios.post(process.env.POST_URL as string, uploadData, {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         // @ts-ignore
+//         Cookie: cookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; '),
+//       },
+//     });
+//     //     // 응답 처리
+//     return response.data;
+//     // @ts-ignore
+//   } catch (error) {
+//     // @ts-ignore
+//     console.error('Error:', error.message);
+//   }
+// }
