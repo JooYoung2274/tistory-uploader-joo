@@ -2,7 +2,7 @@ require('dotenv').config();
 import puppeteer from 'puppeteer';
 
 export async function extractCookies() {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   // 웹 페이지 열기
