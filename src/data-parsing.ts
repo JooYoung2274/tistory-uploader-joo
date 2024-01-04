@@ -26,7 +26,7 @@ export class PostService {
       id: '0',
       title: this.title,
       content: articleHtml,
-      slogan: 'ㄴㅇㄹㅁㄴㅇㄹㅇㅁㄴㄹㅁㄴㅇㄹ',
+      slogan: '?',
       visibility: 0,
       category: this.category,
       tag: this.tag,
@@ -51,7 +51,7 @@ export class PostService {
         },
       });
 
-      //     // 응답 처리
+      // 응답 처리
       return response.data;
       // @ts-ignore
     } catch (error) {
