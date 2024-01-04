@@ -17,7 +17,7 @@ require('dotenv').config();
 const puppeteer_1 = __importDefault(require("puppeteer"));
 function extractCookies() {
     return __awaiter(this, void 0, void 0, function* () {
-        const browser = yield puppeteer_1.default.launch({ headless: false });
+        const browser = yield puppeteer_1.default.launch({ headless: true });
         const page = yield browser.newPage();
         // 웹 페이지 열기
         yield page.goto(process.env.MANAGE);
