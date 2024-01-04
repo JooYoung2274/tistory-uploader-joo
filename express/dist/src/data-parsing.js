@@ -40,10 +40,6 @@ require('dotenv').config();
 const axios_1 = __importDefault(require("axios"));
 const fs = __importStar(require("fs"));
 const marked_1 = require("marked");
-const unified_1 = require("unified");
-const remark_parse_1 = __importDefault(require("remark-parse"));
-const remark_rehype_1 = __importDefault(require("remark-rehype"));
-const rehype_stringify_1 = __importDefault(require("rehype-stringify"));
 class PostService {
     constructor(title, category, tag) {
         this.title = title;
@@ -55,15 +51,12 @@ class PostService {
             const articleRead = fs.readFileSync(process.env.PATH, 'utf8');
             // markdown to html
             const articleHtml = (0, marked_1.marked)(articleRead);
-            const html_text = (0, unified_1.unified)().use(remark_parse_1.default).use(remark_rehype_1.default).use(rehype_stringify_1.default).processSync(articleRead);
-            const aaa = html_text.toString();
-            console.log(aaa);
             // 해당 쿠키 + 포스팅 할 내용으로 POST 요청
             const uploadData = {
                 id: '0',
                 title: this.title,
-                content: aaa,
-                slogan: 'ㄴㅇㄹㅁㄴㅇㄹㅇㅁㄴㄹㅁㄴㅇㄹ',
+                content: articleHtml,
+                slogan: '?',
                 visibility: 0,
                 category: this.category,
                 tag: this.tag,
@@ -87,7 +80,7 @@ class PostService {
                         Cookie: cookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; '),
                     },
                 });
-                //     // 응답 처리
+                // 응답 처리
                 return response.data;
                 // @ts-ignore
             }
@@ -99,43 +92,3 @@ class PostService {
     }
 }
 exports.PostService = PostService;
-// export async function articlePost(cookies: any) {
-//   const articleRead = fs.readFileSync(process.env.PATH as string, 'utf8');
-//   const article = JSON.stringify(articleRead);
-//   // 해당 쿠키 + 포스팅 할 내용으로 POST 요청
-//   const uploadData = {
-//     id: '0',
-//     title: 'testesetddsetest',
-//     content: article,
-//     slogan: 'ㄴㅇㄹㅁㄴㅇㄹㅇㅁㄴㄹㅁㄴㅇㄹ',
-//     visibility: 0,
-//     category: 1,
-//     tag: '',
-//     published: 1,
-//     password: '43NjI2Mz',
-//     uselessMarginForEntry: 1,
-//     daumLike: '401',
-//     cclCommercial: 0,
-//     cclDerive: 0,
-//     thumbnail: null,
-//     type: 'post',
-//     attachments: [],
-//     recaptchaValue: '',
-//     draftSequence: null,
-//   };
-//   try {
-//     const response = await axios.post(process.env.POST_URL as string, uploadData, {
-//       headers: {
-//         'Content-Type': 'application/json',
-//         // @ts-ignore
-//         Cookie: cookies.map((cookie) => `${cookie.name}=${cookie.value}`).join('; '),
-//       },
-//     });
-//     //     // 응답 처리
-//     return response.data;
-//     // @ts-ignore
-//   } catch (error) {
-//     // @ts-ignore
-//     console.error('Error:', error.message);
-//   }
-// }

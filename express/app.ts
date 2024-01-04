@@ -1,6 +1,5 @@
 require('dotenv').config();
 import express from 'express';
-
 import { RlService } from './src/rl.service';
 
 const app = express();

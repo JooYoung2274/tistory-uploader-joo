@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "axios": "^1.6.3",
+    "dotenv": "^16.3.1",
+    "marked": "^11.1.1",
+    "puppeteer": "^21.6.1",
+    "typescript": "^5.3.3"
+  },
+  "name": "tistory-uploader-joo-cli",
+  "version": "1.0.0",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "node dist/app.js",
+    "build": "tsc -p ."
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
