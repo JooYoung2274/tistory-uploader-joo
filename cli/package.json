@@ -9,9 +9,10 @@
     "puppeteer": "^21.6.1",
     "typescript": "^5.3.3"
   },
-  "name": "tistory-uploader-joo-cli",
-  "version": "1.0.0",
-  "main": "app.js",
+  "name": "tistory-uploader-joo",
+  "version": "0.0.2",
+  "main": "./dist/app.js",
+  "types": "./dist/app.d.ts",
   "scripts": {
     "start": "node dist/app.js",
     "build": "tsc -p ."
