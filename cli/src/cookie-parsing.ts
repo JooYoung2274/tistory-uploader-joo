@@ -1,12 +1,11 @@
-require('dotenv').config();
 import puppeteer from 'puppeteer';
 
-export async function extractCookies(id: string, pw: string) {
+export async function extractCookies(id: string, pw: string, url: string) {
   const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
 
   // 웹 페이지 열기
-  await page.goto(process.env.MANAGE as string);
+  await page.goto(`https://${url}.tistory.com/manage`);
 
   // 로그인
   await page.click(

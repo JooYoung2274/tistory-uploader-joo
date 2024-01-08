@@ -1,4 +1,3 @@
-require('dotenv').config();
 import axios from 'axios';
 import * as fs from 'fs';
 
@@ -15,7 +14,7 @@ export class PostService {
     this.tag = tag;
   }
 
-  async articlePost(cookies: any, path: string) {
+  async articlePost(cookies: any, path: string, url: string) {
     const articleRead = fs.readFileSync(path, 'utf8');
 
     // markdown to html
@@ -44,7 +43,7 @@ export class PostService {
     };
     try {
       const response = await axios.post(
-        process.env.POST_URL as string,
+        `https://${url}.tistory.com/manage/posts.json`,
         uploadData,
         {
           headers: {

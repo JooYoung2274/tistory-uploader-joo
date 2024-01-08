@@ -29,9 +29,18 @@ program
             name: 'password',
             message: '비밀번호를 입력하세요',
           },
+          {
+            type: 'input',
+            name: 'url',
+            message: '블로그 주소를 입력하세요 (.tistory.com 제외)',
+          },
         ])
         .then(async (answers) => {
-          const myCookies = await extractCookies(answers.id, answers.password);
+          const myCookies = await extractCookies(
+            answers.id,
+            answers.password,
+            answers.url,
+          );
           answers.cookies = myCookies;
           const dataFilePath = `${__dirname}/userData.json`;
           const userData = JSON.stringify(answers, null, 2);
@@ -95,7 +104,7 @@ program
           const articleRead = fs.readFileSync(dataFilePath, 'utf8');
           const data = JSON.parse(articleRead);
 
-          await postService.articlePost(data.cookies, answers.path);
+          await postService.articlePost(data.cookies, answers.path, data.url);
 
           console.log('Done!');
         });
