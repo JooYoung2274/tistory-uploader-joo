@@ -65,7 +65,7 @@ $ joo-upload upload
 블로그 주소를 입력하세요 (.tistory.com 제외) : 티스토리 주소 앞부분
 ```
 
-#### **1. joo-upload register**
+#### **1. joo-upload upload**
 
 ```
 업로드 할 글 경로를 입력하세요. : 업로드 할 글 경로 (pwd)
