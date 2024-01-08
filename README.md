@@ -42,14 +42,10 @@ $ npm run start
 ### 2. CLI 환경에서 사용할 경우
 
 #### 2-1. INSTALL
-- 현재 npm 배포 전이기 때문에 git clone 후 해당 프로젝트 폴더 들어가서 
-- cd cli
-- npm install
-- 이 후 사용 가능함
 
-<!-- ```shell
-$ npm install -g joo-upload
-``` -->
+```shell
+$ npm install -g joo-uploader-tistory
+```
 
 #### 2-2. COMMAND
 
@@ -87,10 +83,10 @@ $ joo-upload upload
 
 - 만약 업로드 시 에러가 나게되면 joo-upload register를 다시 실행한 후 joo-upload upload를 진행하면 됩니다.
 
-- cli에서 joo-upload register 명령어를 사용하게 되면 해당프로젝트폴더/cli/dist/userData.json 이라는 파일에 개인 아이디, 비밀번호 등이 저장되게 됩니다. 공용으로 사용하는 컴퓨터에선 개인정보가 노출될 수 있으니 개인 컴퓨터에서만 사용해주세요.
+- cli에서 joo-upload register 명령어를 사용하게 되면 /usr/local/lib/node_modules/joo-uploader-tistory/dist/userData.json 이라는 파일에 개인 아이디, 비밀번호 등이 저장되게 됩니다. 공용으로 사용하는 컴퓨터에선 개인정보가 노출될 수 있으니 개인 컴퓨터에서만 사용해주세요.
 
-- 만약 개인정보를 지우고 싶으면 해당프로젝트폴더/cli/dist/userData.json 파일을 삭제하시면 됩니다.
-    - 맥북의 경우 rm -rf /Users/{개인맥북정보}/Desktop/{개인이설정한기타경로}/tistory-uploader-joo/cli/dist/userData.json 
+- 만약 개인정보를 지우고 싶으면 /usr/local/lib/node_modules/joo-uploader-tistory/dist/userData.json 파일을 삭제하시면 됩니다.
+    - 맥북의 경우 rm -rf /usr/local/lib/node_modules/joo-uploader-tistory/dist/userData.json 
     - 윈도우의 경우 폴더로 직접들어가서 삭제하시면 됩니다.
 
 - *크롬이 설치되어 있어야 합니다.*

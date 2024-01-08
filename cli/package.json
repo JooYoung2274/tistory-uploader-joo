@@ -8,7 +8,7 @@
     "puppeteer": "^21.6.1",
     "typescript": "^5.3.3"
   },
-  "name": "tistory-uploader-joo",
+  "name": "joo-uploader-tistory",
   "version": "0.0.2",
   "main": "./dist/app.js",
   "types": "./dist/app.d.ts",
